@@ -9,10 +9,10 @@ import (
 
 type InjestRequest struct {
 	MarketItems []string
-	LocationId  int
+	LocationId  string
 }
 
-func SendMarketItems(marketItems []string, ingestUrl string, locationId int) {
+func SendMarketItems(marketItems []string, ingestUrl string, locationId string) {
 	client := &http.Client{}
 
 	injestRequest := InjestRequest{
