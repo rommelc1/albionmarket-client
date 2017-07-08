@@ -79,6 +79,7 @@ func (ma *MarketAssembler) ProcessPacket(packet gopacket.Packet) {
 			return
 		} else if morePackets != morePacketsIndicator && currentPacket == ma.packetCount {
 			// There are no more packets and this is confirmed as the last packet
+			log.Printf("udp: %v", udp.Dump())
 			ma.itemsBuffer = append(ma.itemsBuffer, udp.Payload[44:]...)
 
 			results := extractStrings(ma.itemsBuffer)
