@@ -33,8 +33,8 @@ build_script:
   - go get
   - set APPNAME=albionmarket-client
   - set GOARCH=amd64
-  - go build -o %APPNAME%.exe --ldflags "-X main.VERSION=%APPVEYOR_REPO_TAG_NAME%" main.go
-  - go-msi.exe make --msi %APPVEYOR_BUILD_FOLDER%\%APPNAME%-%GOARCH%.msi --version %APPVEYOR_REPO_TAG_NAME%
+  - go build -o %APPNAME%.exe --ldflags "-X main.VERSION=1" main.go
+  - go-msi.exe make --msi %APPVEYOR_BUILD_FOLDER%\%APPNAME%-amd64.msi --version 1 -a amd64
 
 artifacts:
   - path: '*-amd64.msi'
