@@ -8,16 +8,16 @@ import (
 )
 
 type InjestRequest struct {
-	MarketItems []string
-	LocationId  string
+	marketitems []string
+	locationid  string
 }
 
 func SendMarketItems(marketItems []string, ingestUrl string, locationId string) {
 	client := &http.Client{}
 
 	injestRequest := InjestRequest{
-		MarketItems: marketItems,
-		LocationId: locationId,
+		marketitems: marketItems,
+		locationid: locationId,
 	}
 
 	data, err := json.Marshal(injestRequest)
