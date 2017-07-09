@@ -104,12 +104,10 @@ func extractStrings(payload []byte) []string {
 	return results
 }
 
-func extractIP(networkdump string) []string {
+func extractIP(networkdump string) string {
 	startindex := strings.Index(networkdump, "SrcIP=")
 	endindex := strings.Index(networkdump, "DstIP=")
 	newstring := networkdump[startindex+6:endindex]
-	var results []string
-	results = append(results, strings.Join(newstring, ""))
-	return results
+	return newstring
 }
 
