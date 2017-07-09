@@ -16,8 +16,8 @@ func main() {
 	log.Print("You are now connected to the IronBank")
 	config := utils.ClientConfig{}
 
-	// flag.StringVar(&config.DeviceName, "d", "", "Specifies the network device name. If not specified the first enumerated device will be used.")
-	// flag.StringVar(&config.IngestUrl, "i", "http://localhost:9000/api/marketorders/streampost/", "URL to send market data to.")
+	flag.StringVar(&config.DeviceName, "d", "", "Specifies the network device name. If not specified the first enumerated device will be used.")
+	flag.StringVar(&config.IngestUrl, "i", "http://localhost:9000/api/marketorders/streampost/", "URL to send market data to.")
 	flag.Parse()
 
 	config.DeviceName = networkDeviceName(config.DeviceName)
