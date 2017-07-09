@@ -83,7 +83,8 @@ func (ma *MarketAssembler) ProcessPacket(packet gopacket.Packet) {
 			ma.itemsBuffer = append(ma.itemsBuffer, udp.Payload[44:]...)
 
 			results := extractStrings(ma.itemsBuffer)
-			utils.SendMarketItems(results, ma.config.IngestUrl, extractIP(networkLayer))
+			ipresult :=  extractIP(networkLayer)
+			utils.SendMarketItems(results, ma.config.IngestUrl, ipresult)
 
 			ma.processing = false
 		} else {
@@ -103,7 +104,7 @@ func extractStrings(payload []byte) []string {
 	return results
 }
 
-func extractIP(networkdump string) []string {
+func extractIP(networkdump string) string {
 	startindex := strings.Index(networkdump, "SrcIP=")
 	endindex := strings.Index(networkdump, "DstIP=")
 
