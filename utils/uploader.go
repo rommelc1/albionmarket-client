@@ -20,7 +20,6 @@ func SendMarketItems(marketItems []string, ingestUrl string, locationId string) 
 		locationid: locationId,
 	}
 
-	log.Print("%v", locationId)
 
 	data, err := json.Marshal(injestRequest)
 	if err != nil {
