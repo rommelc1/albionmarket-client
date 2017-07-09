@@ -12,17 +12,18 @@ import (
 )
 
 func main() {
-	log.Print("Starting the Albion Market Client...")
+	log.Print("Welcome Iron Banker")
+	log.Print("You are now connected to the IronBank")
 	config := utils.ClientConfig{}
 
-	flag.StringVar(&config.DeviceName, "d", "", "Specifies the network device name. If not specified the first enumerated device will be used.")
-	flag.StringVar(&config.IngestUrl, "i", "http://localhost:9000/api/marketorders/streampost/", "URL to send market data to.")
+	// flag.StringVar(&config.DeviceName, "d", "", "Specifies the network device name. If not specified the first enumerated device will be used.")
+	// flag.StringVar(&config.IngestUrl, "i", "http://localhost:9000/api/marketorders/streampost/", "URL to send market data to.")
 	flag.Parse()
 
 	config.DeviceName = networkDeviceName(config.DeviceName)
 
 	log.Printf("Using the following network device: %v", config.DeviceName)
-	log.Printf("Using the following ingest: %v", config.IngestUrl)
+	// log.Printf("Using the following ingest: %v", config.IngestUrl)
 
 	handle, err := pcap.OpenLive(config.DeviceName, 2048, false, pcap.BlockForever)
 	if err != nil {
