@@ -107,8 +107,6 @@ func extractStrings(payload []byte) []string {
 func extractIP(networkdump string) string {
 	startindex := strings.Index(networkdump, "SrcIP=")
 	endindex := strings.Index(networkdump, "DstIP=")
-
-	lengthofstring:= endindex - startindex
 	newstring := networkdump[startindex+6:endindex]
 	return newstring
 }
