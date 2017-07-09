@@ -31,7 +31,7 @@ install:
  
 build_script:
   - go get
-  - set APPNAME=albionmarket-client
+  - set APPNAME=ironmarket
   - set GOARCH=amd64
   - go build -o %APPNAME%.exe --ldflags "-X main.VERSION=1" main.go
   - go-msi.exe make --msi %APPVEYOR_BUILD_FOLDER%\%APPNAME%-amd64.msi --version 1 -a amd64
