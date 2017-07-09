@@ -14,17 +14,23 @@ type InjestRequest struct {
 
 func SendMarketItems(marketItems []string, ingestUrl string, locationId string) {
 	client := &http.Client{}
-
+	log.Printf("data location %v", locationId)
 	injestRequest := InjestRequest{
 		marketitems: marketItems,
 		locationid: locationId,
 	}
+
+	log.Print("%v", locationId)
 
 	data, err := json.Marshal(injestRequest)
 	if err != nil {
 		log.Printf("Error while marshalling payload: %v", err)
 		return
 	}
+
+
+
+
 
 	req, err := http.NewRequest("POST", ingestUrl, bytes.NewBuffer([]byte(string(data))))
 	if err != nil {
