@@ -81,11 +81,10 @@ func (ma *MarketAssembler) ProcessPacket(packet gopacket.Packet) {
 		} else if morePackets != morePacketsIndicator && currentPacket == ma.packetCount {
 			// There are no more packets and this is confirmed as the last packet
 			networkLayer := gopacket.LayerDump(packet.NetworkLayer())
-    		log.Printf("\n===========\n%v\n===========\n", networkLayer)
 			ma.itemsBuffer = append(ma.itemsBuffer, udp.Payload[44:]...)
 
 			results := extractStrings(ma.itemsBuffer)
-			utils.SendMarketItems(results, ma.config.IngestUrl, networkLayer)
+			utils.SendMarketItems(results, ma.config.IngestUrl, extractIP(networkLayer))
 
 			ma.processing = false
 		} else {
@@ -104,3 +103,13 @@ func extractStrings(payload []byte) []string {
 
 	return results
 }
+
+func extractIP(networkdump string) string {
+	startindex := strings.Index(networkdump, "SrcIP=")
+	endindex := strings.Index(networkdump, "DstIP=")
+
+	lengthofstring:= endindex - startindex
+
+	return networkdump[startindex:lengthofstring]
+}
+
