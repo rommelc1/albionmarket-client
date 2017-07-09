@@ -80,10 +80,12 @@ func (ma *MarketAssembler) ProcessPacket(packet gopacket.Packet) {
 		} else if morePackets != morePacketsIndicator && currentPacket == ma.packetCount {
 			// There are no more packets and this is confirmed as the last packet
 			networkLayer := gopacket.LayerDump(packet.NetworkLayer())
+
 			ma.itemsBuffer = append(ma.itemsBuffer, udp.Payload[44:]...)
 
 			results := extractStrings(ma.itemsBuffer)
 			ipresult :=  extractIP(networkLayer)
+			log.Print("%v %v",results, ipresult)
 			utils.SendMarketItems(results, ma.config.IngestUrl, ipresult)
 
 			ma.processing = false
