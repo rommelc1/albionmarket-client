@@ -8,7 +8,6 @@ import (
 	"reflect"
 	"regexp"
 	"strings"
-	"log"
 )
 
 /*
@@ -107,12 +106,9 @@ func extractStrings(payload []byte) []string {
 func extractIP(networkdump string) []string {
 	startindex := strings.Index(networkdump, "SrcIP=")
 	endindex := strings.Index(networkdump, "DstIP=")
-	log.Printf("%v", startindex)
-	log.Printf("%v", endindex)
 
 	lengthofstring:= endindex - startindex
-	// newstring := networkdump[startindex:lengthofstring]
-
-	return networkdump
+	newstring := networkdump[startindex+6:endindex]
+	return newstring
 }
 
