@@ -8,8 +8,8 @@ import (
 )
 
 type InjestRequest struct {
-	MarketItems []string
-	LocationId  string
+	marketItems []string
+	locationId  string
 }
 
 func SendMarketItems(marketItems []string, ingestUrl string, locationId string) {
