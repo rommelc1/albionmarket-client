@@ -3,6 +3,7 @@ package utils
 import (
 	"bytes"
 	"encoding/json"
+	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -10,18 +11,30 @@ import (
 type InjestRequest struct {
 	Marketitems []string
 	Locationid  string
+	Username    string
 }
 
 func SendMarketItems(marketItems []string, ingestUrl string, locationId string) {
 	client := &http.Client{}
-	log.Printf("data location %v", locationId)
+
+	username := "unknown user"
+	if user, err := ioutil.ReadFile("C:\\Users\\Public\\Documents\\username.txt"); err == nil {
+		username = string(user)
+	}
+	
+	if user, err := ioutil.ReadFile("/media/username.txt"); err == nil {
+		username = string(user)
+	}
+
 	injestRequest := InjestRequest{
 		Marketitems: marketItems,
 		Locationid:  locationId,
+		Username:    username
 	}
 
 	data, err := json.Marshal(injestRequest)
-	//	log.Printf("%s", data)
+	log.Printf("%s", data)
+
 	if err != nil {
 		log.Printf("Error while marshalling payload: %v", err)
 		return
