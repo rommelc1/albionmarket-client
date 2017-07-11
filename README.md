@@ -5,6 +5,7 @@ Username should be placed in C:\Users\Public\Documents\username.txt (Windows) or
 
 # TODO
 - [ ] Protect username from SQL injection
+- [ ] Fix imports (they still point at the old code)
 
 # Related Projects
 - [Albion Market - Backend](https://github.com/Regner/albionmarket-backend/)
