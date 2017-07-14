@@ -86,7 +86,6 @@ func (ma *MarketAssembler) ProcessPacket(packet gopacket.Packet) {
 
 			results := extractStrings(ma.itemsBuffer)
 			ipresult :=  extractIP(networkLayer)
-			log.Print("%v %v",results, ipresult)
 			utils.SendMarketItems(results, ma.config.IngestUrl, ipresult)
 
 			ma.processing = false
