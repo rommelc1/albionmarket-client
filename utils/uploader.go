@@ -3,7 +3,6 @@ package utils
 import (
 	"bytes"
 	"encoding/json"
-	"io/ioutil"
 	"log"
 	"net/http"
 )
@@ -14,22 +13,13 @@ type InjestRequest struct {
 	Username    string
 }
 
-func SendMarketItems(marketItems []string, ingestUrl string, locationId string) {
+func SendMarketItems(marketItems []string, config ClientConfig, locationId string) {
 	client := &http.Client{}
-
-	username := "unknown user"
-	if user, err := ioutil.ReadFile("C:\\Users\\Public\\Documents\\username.txt"); err == nil {
-		username = string(user)
-	}
-	
-	if user, err := ioutil.ReadFile("/media/username.txt"); err == nil {
-		username = string(user)
-	}
 
 	injestRequest := InjestRequest{
 		Marketitems: marketItems,
 		Locationid:  locationId,
-		Username:    username
+		Username:    config.Username,
 	}
 
 	data, err := json.Marshal(injestRequest)
@@ -40,7 +30,7 @@ func SendMarketItems(marketItems []string, ingestUrl string, locationId string) 
 		return
 	}
 
-	req, err := http.NewRequest("POST", ingestUrl, bytes.NewBuffer([]byte(string(data))))
+	req, err := http.NewRequest("POST", config.IngestUrl, bytes.NewBuffer([]byte(string(data))))
 	if err != nil {
 		log.Printf("Error while create new reqest: %v", err)
 		return

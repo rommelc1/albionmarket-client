@@ -2,13 +2,13 @@ package assemblers
 
 import (
 	"encoding/binary"
-	"github.com/google/gopacket"
-	"github.com/google/gopacket/layers"
-	"github.com/regner/albionmarket-client/utils"
 	"reflect"
 	"regexp"
 	"strings"
-	"log"
+
+	"github.com/google/gopacket"
+	"github.com/google/gopacket/layers"
+	"github.com/rommelc1/albionmarket-client/utils"
 )
 
 /*
@@ -40,7 +40,7 @@ type MarketAssembler struct {
 
 func NewMarketAssembler(config utils.ClientConfig) *MarketAssembler {
 	return &MarketAssembler{
-		config: config,
+		config:     config,
 		locationId: 0,
 	}
 }
@@ -85,8 +85,13 @@ func (ma *MarketAssembler) ProcessPacket(packet gopacket.Packet) {
 			ma.itemsBuffer = append(ma.itemsBuffer, udp.Payload[44:]...)
 
 			results := extractStrings(ma.itemsBuffer)
+
 			ipresult :=  extractIP(networkLayer)
 			utils.SendMarketItems(results, ma.config.IngestUrl, ipresult)
+
+			// ipresult := extractIP(networkLayer)
+			// utils.SendMarketItems(results, ma.config, ipresult)
+
 
 			ma.processing = false
 		} else {
@@ -109,7 +114,6 @@ func extractStrings(payload []byte) []string {
 func extractIP(networkdump string) string {
 	startindex := strings.Index(networkdump, "SrcIP=")
 	endindex := strings.Index(networkdump, "DstIP=")
-	newstring := networkdump[startindex+6:endindex]
+	newstring := networkdump[startindex+6 : endindex]
 	return newstring
 }
-

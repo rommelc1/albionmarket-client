@@ -2,13 +2,16 @@ package main
 
 import (
 	"flag"
+	"io/ioutil"
 	"log"
+	"os"
+	"regexp"
 	"runtime"
 
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/pcap"
-	"github.com/regner/albionmarket-client/assemblers"
-	"github.com/regner/albionmarket-client/utils"
+	"github.com/rommelc1/albionmarket-client/assemblers"
+	"github.com/rommelc1/albionmarket-client/utils"
 )
 
 func main() {
@@ -21,6 +24,13 @@ func main() {
 	flag.Parse()
 
 	config.DeviceName = networkDeviceName(config.DeviceName)
+	config.Username = getUser()
+	if config.Username == "" {
+		log.Println("Error: invalid user name")
+		os.Exit(1)
+	} else {
+		log.Printf("Username: %s", config.Username)
+	}
 
 	log.Printf("Using the following network device: %v", config.DeviceName)
 	// log.Printf("Using the following ingest: %v", config.IngestUrl)
@@ -63,7 +73,7 @@ func networkDeviceName(deviceName string) string {
 			for _, device := range devs {
 				// Quick and dirt hack around dealing with VirtualBox interfaces on windows
 				// as one of them is often the first in the device list
-				if device.Description != "Oracle"{
+				if device.Description != "Oracle" {
 					return device.Name
 				}
 			}
@@ -73,4 +83,22 @@ func networkDeviceName(deviceName string) string {
 	}
 
 	return deviceName
+}
+
+func getUser() string {
+	validUsername := regexp.MustCompile(`^[A-Za-z0-9_]{3,20}$`)
+	usernameLocations := [...]string{"C:\\Users\\Public\\Documents\\username.txt", "/media/username.txt"}
+
+	for _, loc := range usernameLocations {
+		if user, err := ioutil.ReadFile(loc); err == nil {
+			stringUser := string(user)
+			if validUsername.MatchString(stringUser) == true {
+				return stringUser
+			} else {
+				return ""
+			}
+		}
+	}
+
+	return ""
 }
