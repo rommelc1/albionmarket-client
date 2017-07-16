@@ -23,6 +23,7 @@ func SendMarketItems(marketItems []string, config ClientConfig, locationId strin
 	}
 
 	data, err := json.Marshal(injestRequest)
+	//	log.Printf("%v", string(data))
 
 	if err != nil {
 		log.Printf("Error while marshalling payload: %v", err)
@@ -43,12 +44,12 @@ func SendMarketItems(marketItems []string, config ClientConfig, locationId strin
 		return
 	}
 
-	if resp.StatusCode != 201 {
+	if resp.StatusCode != 200 && resp.StatusCode != 201 {
 		log.Printf("Got bad response code: %v", resp.StatusCode)
 		return
 	}
 
 	log.Printf("Sent market payload with %v entries.", len(marketItems))
 
-	defer resp.Body.Close()
+	resp.Body.Close()
 }
