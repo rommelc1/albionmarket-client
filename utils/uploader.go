@@ -23,7 +23,6 @@ func SendMarketItems(marketItems []string, config ClientConfig, locationId strin
 	}
 
 	data, err := json.Marshal(injestRequest)
-	log.Printf("%s", data)
 
 	if err != nil {
 		log.Printf("Error while marshalling payload: %v", err)
