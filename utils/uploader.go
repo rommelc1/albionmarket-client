@@ -3,8 +3,10 @@ package utils
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"regexp"
 )
 
 type InjestRequest struct {
@@ -14,12 +16,36 @@ type InjestRequest struct {
 }
 
 func SendMarketItems(marketItems []string, config ClientConfig, locationId string) {
-	client := &http.Client{}
+	publicItems := make([]string, 0)
+	playerItems := make([]string, 0)
 
+	buyerString := fmt.Sprintf("\"BuyerName\":\"%s\"", config.Username)
+	sellerString := fmt.Sprintf("\"SellerName\":\"%s\"", config.Username)
+
+	for _, item := range marketItems {
+		buyMatched, _ := regexp.MatchString(buyerString, item)
+		sellMatched, _ := regexp.MatchString(sellerString, item)
+		if buyMatched || sellMatched {
+			playerItems = append(playerItems, item)
+		} else {
+			publicItems = append(publicItems, item)
+		}
+	}
+
+	if len(publicItems) > 0 {
+		SendMarketItemsToEndpoint(publicItems, config.Username, locationId, config.MarketIngestUrl)
+	}
+
+	if len(playerItems) > 0 {
+		SendMarketItemsToEndpoint(playerItems, config.Username, locationId, config.PlayerIngestUrl)
+	}
+}
+
+func SendMarketItemsToEndpoint(marketItems []string, username string, locationId string, url string) {
 	injestRequest := InjestRequest{
 		Marketitems: marketItems,
 		Locationid:  locationId,
-		Username:    config.Username,
+		Username:    username,
 	}
 
 	data, err := json.Marshal(injestRequest)
@@ -30,12 +56,13 @@ func SendMarketItems(marketItems []string, config ClientConfig, locationId strin
 		return
 	}
 
-	req, err := http.NewRequest("POST", config.IngestUrl, bytes.NewBuffer([]byte(string(data))))
+	req, err := http.NewRequest("POST", url, bytes.NewBuffer([]byte(string(data))))
 	if err != nil {
 		log.Printf("Error while create new reqest: %v", err)
 		return
 	}
 
+	client := &http.Client{}
 	req.Header.Set("Content-Type", "application/json")
 
 	resp, err := client.Do(req)

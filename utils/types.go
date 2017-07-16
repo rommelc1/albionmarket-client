@@ -1,7 +1,8 @@
 package utils
 
 type ClientConfig struct {
-	DeviceName string
-	IngestUrl  string
-	Username   string
+	DeviceName      string
+	MarketIngestUrl string
+	PlayerIngestUrl string
+	Username        string
 }
