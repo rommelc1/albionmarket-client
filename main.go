@@ -20,8 +20,8 @@ func main() {
 	config := utils.ClientConfig{}
 
 	flag.StringVar(&config.DeviceName, "d", "", "Specifies the network device name. If not specified the first enumerated device will be used.")
-	flag.StringVar(&config.IngestUrl, "i", "http://localhost:9000/api/marketorders/streampost/", "URL to send market data to.")
 
+	flag.StringVar(&config.MarketIngestUrl, "i", "http://localhost:9000/api/marketorders/streampost/", "URL to send market data to.")
 	// flag.StringVar(&config.MarketIngestUrl, "i", "http://kfauc-test.herokuapp.com/api/marketorders/streampost/", "URL to send market data to.")
 	// flag.StringVar(&config.PlayerIngestUrl, "p", "http://kfauc-test.herokuapp.com/api/marketorders/streampost/", "URL to send player data to.")
 
