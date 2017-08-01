@@ -49,7 +49,7 @@ func SendMarketItemsToEndpoint(marketItems []string, username string, locationId
 	}
 
 	data, err := json.Marshal(injestRequest)
-		log.Printf("%v", string(data))
+		// log.Printf("%v", string(data))
 
 	if err != nil {
 		log.Printf("Error while marshalling payload: %v", err)

@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"regexp"
 	"strings"
-
+	
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/rommelc1/albionmarket-client/utils"
